@@ -12,6 +12,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 '''
 
 from datetime import date, datetime
+from functools import partial
+import re
 
 class DateDeux(date):
     def pydate(self):
@@ -30,8 +32,56 @@ class DateDeux(date):
     def dayname_short(self):
         return self.dayname()[:3]
 
+    def monthname(self):
+        return ['', 'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 
+                'November', 'December'][self.month]
+
+    def monthname_short(self):
+        return self.monthname()[:3]
+
+    def dateformat(self, format):
+        def _format_as_int(number, length):
+            if length < len(str(number)):
+                return str(number)[-length:]
+
+            format = "%%0%dd" % length
+            return format % number
+
+        def _format_month(*args):
+            return self.monthname_short()
+
+        def _re_match(matchstring, regex):
+            return re.findall(regex, matchstring)[0]
+
+        matches = list(map(partial(_re_match, format), ['y+', 'm+', 'd+']))
+
+        result = format[:]
+        result = result.replace(matches[0], _format_as_int(self.year, len(matches[0])))
+        result = result.replace(matches[2], _format_as_int(self.day, len(matches[2])))
+        _month_func = _format_month if len(matches[1]) == 3 else _format_as_int
+        result = result.replace(matches[1], _month_func(self.month, len(matches[1])))
+        return result
+
+    def yearcalendar(self):
+        _start = DateDeux(self.year, 1, 1)
+        _end = DateDeux(self.year, 12, 31)
+
+        diff = _end.toordinal() - _start.toordinal() + 1
+        return (_start + x for x in range(0, diff))
+
+    def monthcalendar(self):
+        _start = self.monthstart()
+        _end = self.monthend()
+
+        diff = _end.toordinal() - _start.toordinal() + 1
+        return (_start + x for x in range(0, diff))
+
     def __add__(self, numdays):
         return DateDeux.fromordinal(self.toordinal() + numdays)
 
     def __sub__(self, numdays):
-        return DateDeux.fromordinal(self.toordinal() - numdays)        
+        return DateDeux.fromordinal(self.toordinal() - numdays)
+
+    def __iter__(self):
+        return iter((self.year, self.month, self.day))
