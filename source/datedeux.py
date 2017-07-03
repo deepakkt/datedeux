@@ -19,11 +19,28 @@ class DateDeux(date):
     def pydate(self):
         return date(self.year, self.month, self.day)
 
+    @classmethod
+    def fromisodate(self, isodatestr):
+        try:
+            return DateDeux(*(map(int, isodatestr.split('-'))))
+        except:
+            return None
+
+    @classmethod
+    def frompydate(self, pydate_object):
+        return DateDeux(pydate_object.year, pydate_object.month, pydate_object.day)            
+
     def monthstart(self):
         return DateDeux(self.year, self.month, 1)
 
     def monthend(self):
         return DateDeux.fromordinal(DateDeux(self.year, self.month + 1, 1).toordinal() - 1)
+
+    def yearend(self):
+        return DateDeux(self.year, 12, 31)
+
+    def yearstart(self):
+        return DateDeux(self.year, 1, 1)
 
     def dayname(self):
         return ['Monday', 'Tuesday', 'Wednesday',

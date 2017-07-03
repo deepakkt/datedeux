@@ -25,6 +25,21 @@ DateDeux(2017, 6, 1)
 DateDeux(2017, 6, 30)
 ```
 
+### ... start of year
+
+```
+>>> x.yearstart()
+DateDeux(2017, 1, 1)
+```
+
+
+### ... end of year
+
+```
+>>> x.yearend()
+DateDeux(2017, 12, 31)
+```
+
 ### Arithmetic operations
 
 ```
@@ -65,6 +80,22 @@ DateDeux(2017, 5, 29)
 '29-Jun-17'
 >>> x.dateformat('mm/dd/yy')
 '06/29/17'
+```
+
+### Python date to DateDeux
+
+```
+>>> from datedeux import DateDeux
+>>> from datetime import date
+>>> DateDeux.frompydate(date(2017, 4, 1))
+DateDeux(2017, 4, 1)
+```
+
+### ISO Date to DateDeux
+
+```
+>>> DateDeux.fromisodate('2017-04-01')
+DateDeux(2017, 4, 1)
 ```
 
 
@@ -120,6 +151,18 @@ DateDeux(2017, 6, 28)
 >>> x.pydate()
 datetime.date(2017, 6, 28)
 ```
+
+### Get an iterable value set out (year, month, day)
+
+```
+>>> tuple(x)
+(2017, 7, 3)
+>>> list(x)
+[2017, 7, 3]
+```
+
+### Feedback and additional features
+Please raise an issue in the repo
 
 ### License
 [BSD License](https://opensource.org/licenses/BSD-3-Clause) 
