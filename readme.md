@@ -49,6 +49,14 @@ DateDeux(2017, 8, 12)
 DateDeux(2017, 9, 4)
 >>> x - 30
 DateDeux(2017, 5, 29)
+>>> x = DateDeux.today()
+>>> x
+DateDeux(2017, 7, 15)
+>>> y = x.monthend()
+>>> y
+DateDeux(2017, 7, 31)
+>>> y - x
+16
 ```
 
 ### ... readable day of week

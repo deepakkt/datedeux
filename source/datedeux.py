@@ -98,7 +98,10 @@ class DateDeux(date):
         return DateDeux.fromordinal(self.toordinal() + numdays)
 
     def __sub__(self, numdays):
-        return DateDeux.fromordinal(self.toordinal() - numdays)
+        try:
+            return self.toordinal() - numdays.toordinal()
+        except AttributeError:
+            return DateDeux.fromordinal(self.toordinal() - numdays)
 
     def __iter__(self):
         return iter((self.year, self.month, self.day))
