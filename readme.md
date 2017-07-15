@@ -169,6 +169,58 @@ datetime.date(2017, 6, 28)
 [2017, 7, 3]
 ```
 
+### Quick recipes
+The idea behind this module was to make many date operations declarative building on the core module. 
+
+#### Next month start
+```
+>>> (x.monthend() + 1)
+DateDeux(2017, 8, 1)
+```
+
+#### Previous month start
+```
+>>> (x.monthstart() - 1).monthstart()
+DateDeux(2017, 6, 1)
+```
+
+#### Previous year start
+```
+>>> x.yearstart() - 1
+DateDeux(2016, 12, 31)
+```
+you get the idea...
+
+#### you have a python date. You want to add 45 days to it and get a python date back
+```
+>>> y = date.today()
+>>> y
+datetime.date(2017, 7, 15)
+>>> (DateDeux.frompydate(y) + 45).pydate()
+datetime.date(2017, 8, 29)
+```
+
+#### Get all Sundays in the year
+```
+>>> x = DateDeux.today()
+>>> x
+DateDeux(2017, 7, 15)
+>>> [z for z in x.yearcalendar() if z.dayname() == "Sunday"]
+[DateDeux(2017, 1, 1), DateDeux(2017, 1, 8), DateDeux(2017, 1, 15), DateDeux(2017, 1, 22), DateDeux(2017, 1, 29), DateDeux(2017, 2, 5), DateDeux(2017, 2, 12), DateDeux(2017, 2, 19), DateDeux(2017, 2, 26), DateDeux(2017, 3, 5), DateDeux(2017, 3, 12), DateDeux(2017, 3, 19), DateDeux(2017, 3, 26), DateDeux(2017, 4, 2), DateDeux(2017, 4, 9), DateDeux(2017, 4, 16), DateDeux(2017, 4, 23), DateDeux(2017, 4, 30), DateDeux(2017, 5, 7), DateDeux(2017, 5, 14), DateDeux(2017, 5, 21), DateDeux(2017, 5, 28), DateDeux(2017, 6, 4), DateDeux(2017, 6, 11), DateDeux(2017, 6, 18), DateDeux(2017, 6, 25), DateDeux(2017, 7, 2), DateDeux(2017, 7, 9), DateDeux(2017, 7, 16), DateDeux(2017, 7, 23), DateDeux(2017, 7, 30), DateDeux(2017, 8, 6), DateDeux(2017, 8, 13), DateDeux(2017, 8, 20), DateDeux(2017, 8, 27), DateDeux(2017, 9, 3), DateDeux(2017, 9, 10), DateDeux(2017, 9, 17), DateDeux(2017, 9, 24), DateDeux(2017, 10, 1), DateDeux(2017, 10, 8), DateDeux(2017, 10, 15), DateDeux(2017, 10, 22), DateDeux(2017, 10, 29), DateDeux(2017, 11, 5), DateDeux(2017, 11, 12), DateDeux(2017, 11, 19), DateDeux(2017, 11, 26), DateDeux(2017, 12, 3), DateDeux(2017, 12, 10), DateDeux(2017, 12, 17), DateDeux(2017, 12, 24), DateDeux(2017, 12, 31)]
+```
+
+#### Is this a leap year?
+```
+>>> x
+DateDeux(2017, 7, 15)
+>>> x.yearstart().monthend() + 1
+DateDeux(2017, 2, 1)
+>>> (x.yearstart().monthend() + 1).monthend()
+DateDeux(2017, 2, 28)
+>>> (x.yearstart().monthend() + 1).monthend().day == 29
+False
+```
+
 ### Feedback and additional features
 Please raise an issue in the repo
 
