@@ -34,7 +34,10 @@ class DateDeux(date):
         return DateDeux(self.year, self.month, 1)
 
     def monthend(self):
-        return DateDeux.fromordinal(DateDeux(self.year, self.month + 1, 1).toordinal() - 1)
+        if self.month == 12:
+            return DateDeux(self.year, 12, 31)
+        else:
+            return DateDeux.fromordinal(DateDeux(self.year, self.month + 1, 1).toordinal() - 1)
 
     def yearend(self):
         return DateDeux(self.year, 12, 31)
