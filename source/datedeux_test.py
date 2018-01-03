@@ -13,6 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 import unittest
 from datedeux import DateDeux
+from datetime import date
 
 
 class MonthEndTestCase(unittest.TestCase):
@@ -1037,6 +1038,57 @@ class DayOfWeekTestCase(unittest.TestCase):
         for eachday in weekdays:
             self.assertEquals(DateDeux.fromisodate(eachday).dayname_short(), weekdays[eachday])
 
+
+class MonthCalendarTestCase(unittest.TestCase):
+    def build_month_cal(self, year, month):
+        _continue = True
+        month_list = []
+        _current = DateDeux(year, month, 1)
+
+        while _continue:
+            month_list.append(_current)
+            _current_pydate = _current.pydate()
+            _current_pydate = date.fromordinal(_current_pydate.toordinal() + 1)
+            _current = DateDeux.frompydate(_current_pydate)
+
+            if _current.month != month:
+                _continue = False
+
+        return tuple(month_list)
+
+
+    def test_month_cal(self):
+        self.assertTrue(tuple(DateDeux(1996, 1, 1).monthcalendar()) == self.build_month_cal(1996, 1))
+        self.assertTrue(tuple(DateDeux(1996, 2, 1).monthcalendar()) == self.build_month_cal(1996, 2))
+        self.assertTrue(tuple(DateDeux(1996, 12, 1).monthcalendar()) == self.build_month_cal(1996, 12))
+        self.assertTrue(tuple(DateDeux(1997, 2, 1).monthcalendar()) == self.build_month_cal(1997, 2))
+
+
+
+class YearCalendarTestCase(unittest.TestCase):
+    def build_year_cal(self, year):
+        _continue = True
+        year_list = []
+        _current = DateDeux(year, 1, 1)
+
+        while _continue:
+            year_list.append(_current)
+            _current_pydate = _current.pydate()
+            _current_pydate = date.fromordinal(_current_pydate.toordinal() + 1)
+            _current = DateDeux.frompydate(_current_pydate)
+
+            if _current.year != year:
+                _continue = False
+
+        return tuple(year_list)
+
+
+    def test_month_cal(self):
+        self.assertTrue(tuple(DateDeux(1996, 1, 1).yearcalendar()) == self.build_year_cal(1996))
+        self.assertTrue(tuple(DateDeux(1997, 1, 1).yearcalendar()) == self.build_year_cal(1997))
+        self.assertTrue(tuple(DateDeux(1998, 1, 1).yearcalendar()) == self.build_year_cal(1998))
+        self.assertTrue(tuple(DateDeux(1999, 1, 1).yearcalendar()) == self.build_year_cal(1999))
+        self.assertTrue(tuple(DateDeux(2000, 1, 1).yearcalendar()) == self.build_year_cal(2000))
 
 
 if __name__ == "__main__":
