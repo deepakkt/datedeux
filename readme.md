@@ -1,6 +1,5 @@
 # Date Deux
-This is basically the Python date module supplanted with some useful functions. This is a superclass so it supports everything the date module does.
-It overlaps *some* functions of the calendar module but in general this was designed like a date+ module.
+This is basically the Python date module supplanted with some useful functions. This is a subclass of `datetime.date` so should be possible to use this as a drop in replacemant for `date`.
 
 Should work the same on py2 and py3
 
