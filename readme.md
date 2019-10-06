@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/deepakkt/datedeux/tree/master.svg?style=svg)](https://circleci.com/gh/deepakkt/datedeux/tree/master)
+
 # Date Deux
 This is basically the Python date module supplanted with some useful functions. This is a subclass of `datetime.date` so should be possible to use this as a drop in replacemant for `date`.
 
